@@ -23,7 +23,7 @@ public class SpringWeb3Application {
 	 * Dopo aver creato l'entita' con relativi repository
 	 * e service, definire controller per permettere all'utente
 	 * le seguenti interazioni:
-	 * - lettura di tutti i dati presenti in tablla
+	 * - lettura di tutti i dati presenti in tabella
 	 * - aggiunta di un nuovo employee
 	 * - modifica di un vecchio employee
 	 * - eliminiazione di un employee

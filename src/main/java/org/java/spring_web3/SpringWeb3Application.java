@@ -38,7 +38,7 @@ public class SpringWeb3Application {
 	 * - id : INT
 	 * - name : STRING
 	 * 
-	 * Mofidificare il motodo che legge tutta la tabella Employee
+	 * Modificare il metodo che legge tutta la tabella Employee
 	 * per ritornare tutti gli Employee con il/i relativi ruolo/i.
 	 * 
 	 */

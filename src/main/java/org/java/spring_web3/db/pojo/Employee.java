@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Employee {
@@ -25,17 +27,23 @@ public class Employee {
     @Column(nullable = false)
     private int bonus;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Role role;
+
     public Employee() {
     }
 
     public Employee(
             String name, String surname,
-            int salary, int bonus) {
+            int salary, int bonus,
+            Role role) {
 
         setName(name);
         setSurname(surname);
         setSalary(salary);
         setBonus(bonus);
+        setRole(role);
     }
 
     public Employee(EmployeeDto employeeDto) {
@@ -81,6 +89,14 @@ public class Employee {
 
     public void setBonus(int bonus) {
         this.bonus = bonus;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void update(EmployeeDto employeeDto) {

@@ -8,6 +8,8 @@ public class EmployeeDto {
     private int salary;
     private int bonus;
 
+    private int roleId;
+
     public String getName() {
         return name;
     }
@@ -40,6 +42,14 @@ public class EmployeeDto {
         this.bonus = bonus;
     }
 
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
 
@@ -48,6 +58,7 @@ public class EmployeeDto {
                 "\tsurname: " + surname + "\n" +
                 "\tsalary: " + salary + "\n" +
                 "\tbonus: " + bonus + "\n" +
+                "\trole id: " + roleId + "\n" +
                 "}";
     }
 }

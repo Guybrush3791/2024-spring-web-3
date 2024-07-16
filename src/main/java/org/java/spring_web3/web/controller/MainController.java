@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.spring_web3.db.pojo.Employee;
+import org.java.spring_web3.db.pojo.Role;
 import org.java.spring_web3.db.serv.EmployeeService;
+import org.java.spring_web3.db.serv.RoleService;
 import org.java.spring_web3.web.data.dto.EmployeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -25,12 +26,21 @@ public class MainController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/test/add")
     public ResponseEntity<Void> addTestEntity() {
 
-        Employee emp1 = new Employee("Guybrush", "Threepwood", 1000, 100);
-        Employee emp2 = new Employee("Elaine", "Marley", 2000, 200);
-        Employee emp3 = new Employee("LeChuck", "LeChuck", 3000, 300);
+        Role role1 = new Role("Pirate");
+        Role role2 = new Role("Governor");
+
+        roleService.save(role1);
+        roleService.save(role2);
+
+        Employee emp1 = new Employee("Guybrush", "Threepwood", 1000, 100, role1);
+        Employee emp2 = new Employee("Elaine", "Marley", 2000, 200, role2);
+        Employee emp3 = new Employee("LeChuck", "LeChuck", 3000, 300, role1);
 
         employeeService.save(emp1);
         employeeService.save(emp2);
@@ -51,12 +61,17 @@ public class MainController {
     public ResponseEntity<Employee> addEmployee(
             @RequestBody EmployeeDto employeeDto) {
 
-        System.out.println(employeeDto);
-
         Employee emp = new Employee(employeeDto);
-        employeeService.save(emp);
 
-        System.out.println(emp);
+        Optional<Role> optEmpRole = roleService.getRoleById(employeeDto.getRoleId());
+
+        if (optEmpRole.isEmpty())
+            return ResponseEntity.badRequest().build();
+
+        Role empRole = optEmpRole.get();
+        emp.setRole(empRole);
+
+        employeeService.save(emp);
 
         return ResponseEntity.ok(emp);
     }
@@ -88,6 +103,14 @@ public class MainController {
 
         Employee emp = optEmp.get();
         emp.update(employeeDto);
+
+        Optional<Role> optEmpRole = roleService.getRoleById(employeeDto.getRoleId());
+
+        if (optEmpRole.isEmpty())
+            return ResponseEntity.badRequest().build();
+
+        Role empRole = optEmpRole.get();
+        emp.setRole(empRole);
 
         employeeService.save(emp);
 
